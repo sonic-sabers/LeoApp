@@ -1,0 +1,15 @@
+export default colors = {
+  primary: '#e32f45',
+  secondary: '#4263ec',
+  white: '#FFF',
+  white1: '#ffffff80',
+  white2: '#F6F6F9',
+  inactive:'#748c94',
+  white4: '#0000001A',
+  tempbg: '#fafafa',
+  black: '#000',
+  mytext: '#333',
+  background: '#003049',
+  inputs: '#f1faee',
+  lightblack: '#00000050',
+};
