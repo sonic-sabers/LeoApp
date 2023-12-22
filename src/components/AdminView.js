@@ -1,17 +1,12 @@
-import { ActivityIndicator, Button, FlatList, Modal, Pressable, StyleSheet, Switch, Text, TextInput, TouchableHighlight, View } from 'react-native'
+// const styles = StyleSheet.create({})
+import { ActivityIndicator, Button, FlatList, Modal, Pressable, StyleSheet, Switch, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
-import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
 
-export default function ViewList({ navigation }) {
+export default function AdminView() {
+  const navigation = useNavigation();
   const [fetchedState, setUsersData] = useState(null);
   const [loading, setLoading] = useState(true)
   const [inputValue, setInputValue] = useState('')
@@ -83,6 +78,7 @@ export default function ViewList({ navigation }) {
 
     )
   }
+
   return (
     <View>
       <FlatList
@@ -97,14 +93,33 @@ export default function ViewList({ navigation }) {
         data={fetchedState}
         ListEmptyComponent={emptyPlaceholder}
         renderItem={({ item, index, separators }) => (
-          <TouchableHighlight
+          <TouchableOpacity
             key={item.key}
             onPress={() => navigation.navigate('DetailView', { item })}
             onShowUnderlay={separators.highlight}
             style={styles.itemContainer}
             onHideUnderlay={separators.unhighlight}>
-            <View style={[{ backgroundColor: 'white', padding: 12, borderRadius: 8, justifyContent: 'space-between', }, item.completed ? { backgroundColor: "green" } : {}]}>
-              <Text>{item.title}</Text>
+            <View style={[{
+              backgroundColor: 'white', shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 5,
+              },
+              shadowOpacity: 0.34,
+              shadowRadius: 6.27,
+
+              elevation: 10, padding: 12, borderRadius: 8, justifyContent: 'space-between',
+            }, item.completed ? { backgroundColor: colors.secondary } : {}]}>
+              <Text
+                style={[{
+                  fontSize: 20,
+                  fontWeight: '400',
+                  fontFamily: 'Roboto',
+                  color: '#000',
+                  marginVertical: 4
+                }, item.completed ? { color: colors.primary } : {}]}>
+                {item.title}
+              </Text>
               <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
                 <AntDesign name='edit' size={30} color='#888' onPress={() => (setActiveTask(item.id), setModalVisible(true), setInputValue(item.title))} />
                 <AntDesign name='delete' size={30} color='#900' onPress={() => deleteTask(item)} />
@@ -117,12 +132,10 @@ export default function ViewList({ navigation }) {
                 />
               </View>
             </View>
-          </TouchableHighlight>
+          </TouchableOpacity>
         )}
       />
-      <Pressable style={{ alignSelf: "flex-end", margin: 20 }} onPress={() => navigation.navigate('CreateTodo')}>
-        <AntDesign name='pluscircle' size={30} color='#900' />
-      </Pressable>
+   
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -152,11 +165,12 @@ export default function ViewList({ navigation }) {
   )
 }
 
+
 const styles = StyleSheet.create({
   itemContainer: {
     backgroundColor: '#f1f1f1f1',
-    marginHorizontal: 12,
-    marginVertical: 12,
+    marginHorizontal: 8,
+    marginVertical: 4,
     borderRadius: 8,
     // padding: 10
 
