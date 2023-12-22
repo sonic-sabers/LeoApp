@@ -81,43 +81,21 @@ export default function AdminView() {
 
   return (
     <View>
-      <FlatList
-        ItemSeparatorComponent={
-          Platform.OS !== 'android' &&
-          (({ highlighted }) => (
-            <View
-              style={[styles.separator, highlighted && { marginLeft: 0 }]}
-            />
-          ))
-        }
-        data={fetchedState}
-        ListEmptyComponent={emptyPlaceholder}
-        renderItem={({ item, index, separators }) => (
-          <TouchableOpacity
+
+      {loading ? <>
+        <ActivityIndicator />
+      </> : fetchedState?.map((item) => {
+        return (
+          <Pressable
             key={item.key}
             onPress={() => navigation.navigate('DetailView', { item })}
-            onShowUnderlay={separators.highlight}
-            style={styles.itemContainer}
-            onHideUnderlay={separators.unhighlight}>
-            <View style={[{
-              backgroundColor: 'white', shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 5,
-              },
-              shadowOpacity: 0.34,
-              shadowRadius: 6.27,
-
-              elevation: 10, padding: 12, borderRadius: 8, justifyContent: 'space-between',
-            }, item.completed ? { backgroundColor: colors.secondary } : {}]}>
+            // onShowUnderlay={separators.highlight}
+            style={[styles.itemContainer,]}
+          // onHideUnderlay={separators.unhighlight}
+          >
+            <View style={[styles.itemContainerView, item.completed ? { backgroundColor: colors.secondary } : {}]}>
               <Text
-                style={[{
-                  fontSize: 20,
-                  fontWeight: '400',
-                  fontFamily: 'Roboto',
-                  color: '#000',
-                  marginVertical: 4
-                }, item.completed ? { color: colors.primary } : {}]}>
+                style={[styles.itemTitle, item.completed ? { color: colors.primary } : {}]}>
                 {item.title}
               </Text>
               <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
@@ -132,10 +110,49 @@ export default function AdminView() {
                 />
               </View>
             </View>
-          </TouchableOpacity>
+          </Pressable>
+        );
+      })}
+      {/* <FlatList
+        ItemSeparatorComponent={
+          Platform.OS !== 'android' &&
+          (({ highlighted }) => (
+            <View
+              style={[styles.separator, highlighted && { marginLeft: 0 }]}
+            />
+          ))
+        }
+        data={fetchedState}
+        ListEmptyComponent={emptyPlaceholder}
+        renderItem={({ item, index, separators }) => (
+          <Pressable
+
+            key={item.key}
+            onPress={() => navigation.navigate('DetailView', { item })}
+            onShowUnderlay={separators.highlight}
+            style={[styles.itemContainer,]}
+            onHideUnderlay={separators.unhighlight}>
+            <View style={[styles.itemContainerView, item.completed ? { backgroundColor: colors.secondary } : {}]}>
+              <Text
+                style={[styles.itemTitle, item.completed ? { color: colors.primary } : {}]}>
+                {item.title}
+              </Text>
+              <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center', flex: 1 }}>
+                <AntDesign name='edit' size={30} color='#888' onPress={() => (setActiveTask(item.id), setModalVisible(true), setInputValue(item.title))} />
+                <AntDesign name='delete' size={30} color='#900' onPress={() => deleteTask(item)} />
+                <Switch
+                  trackColor={{ false: '#767577', true: '#81b0ff' }}
+                  thumbColor={item.completed ? '#f5dd4b' : '#f4f3f4'}
+                  ios_backgroundColor="#3e3e3e"
+                  onValueChange={() => toggleSwitch(item)}
+                  value={item.completed}
+                />
+              </View>
+            </View>
+          </Pressable>
         )}
-      />
-   
+      /> */}
+
       <View style={styles.centeredView}>
         <Modal
           animationType="slide"
@@ -172,8 +189,25 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginVertical: 4,
     borderRadius: 8,
-    // padding: 10
+  },
+  itemTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000',
+    marginVertical: 4
+  },
+  itemContainerView: {
+    backgroundColor: 'white', shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    marginVertical: 8,
 
+    elevation: 10, padding: 12, borderRadius: 8, justifyContent: 'space-between',
   },
   centeredView: {
     flex: 1,

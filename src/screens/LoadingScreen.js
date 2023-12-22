@@ -1,10 +1,8 @@
-import { ActivityIndicator, Button, FlatList, Modal, Pressable, StyleSheet, Switch, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
 
 import { useNavigation } from '@react-navigation/native';
-import AdminView from '../components/AdminView';
 import * as localStorage from '../services/localStorage';
-import LocationView from '../components/LocationView';
 
 export default function LoadingScreen() {
   const navigation = useNavigation();
@@ -30,18 +28,22 @@ export default function LoadingScreen() {
     };
   }, []);
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={styles.container}>
       <Text
-        style={{
-          fontSize: 30,
-          fontWeight: '400',
-          fontFamily: 'Roboto',
-          color: '#000'
-        }}>
+        style={styles.loadinText}>
         Loading
       </Text>
     </View>
   )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: "center", alignItems: "center" },
+  loadinText: {
+    fontSize: 30,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000'
+  }
+
+})
