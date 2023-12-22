@@ -1,9 +1,9 @@
-import { ActivityIndicator, Alert, Button, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Alert, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import colors from '../constants/colors'
 import { TextInput } from 'react-native-paper';
 import DatePicker from 'react-native-date-picker'
-import { Checkbox, RadioButton } from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 
 import * as localStorage from '../services/localStorage';
 import FormImagePicker from '../components/FormImagePicker';
@@ -78,18 +78,9 @@ export default function RegistrationScreen({ navigation }) {
   }
 
   return (
-    <ScrollView style={{
-      flex: 1,
-      backgroundColor: colors.primary,
-      padding: 12,
-    }}>
+    <ScrollView style={styles.container}>
       <Text
-        style={{
-          fontSize: 20,
-          fontWeight: '400',
-          fontFamily: 'Roboto',
-          color: '#000'
-        }}>
+        style={styles.registrationTitle}>
         Register your details accordingly
       </Text>
       <Formik
@@ -122,21 +113,16 @@ export default function RegistrationScreen({ navigation }) {
           return (
             <>
               <KeyboardAvoidingView>
-
                 <CustomInput
                   label="Name"
                   value={username}
-                  // onChangeText={text => setName(text)}
                   onChangeText={handleChange('username')}
                   onBlur={handleBlur('username')}
                   error={touched.username && errors.username}
-
                 />
                 <CustomInput
                   label="Email"
                   value={email}
-                  // onChangeText={text => setemail(text)}
-
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
                   error={touched.email && errors.email}
@@ -144,58 +130,33 @@ export default function RegistrationScreen({ navigation }) {
                 <CustomInput
                   label="phone number"
                   value={number}
-                  // onChangeText={text => setnumber(text)}
-
                   onChangeText={handleChange('number')}
                   onBlur={handleBlur('number')}
-
                   keyboardType='numeric'
                   error={touched.number && errors.number}
-
                 />
                 <CustomInput
                   label="habits"
                   value={habits}
-                  // onChangeText={text => sethabits(text)}
-
                   onChangeText={handleChange('habits')}
                   onBlur={handleBlur('habits')}
-
                   error={touched.habits && errors.habits}
-
                 />
                 <CustomInput
                   label="About Me"
                   value={About}
-                  // onChangeText={text => setAbout(text)}
-
                   onChangeText={handleChange('About')}
                   onBlur={handleBlur('About')}
-
                   multiline
                   numberOfLines={3}
                   error={touched.About && errors.About}
-
                 />
               </KeyboardAvoidingView>
-
               <TouchableOpacity
                 onPress={() => setOpen(true)}
-                style={{
-                  backgroundColor: colors.secondary,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  padding: 8,
-                  borderRadius: 8,
-                  marginTop: 8
-                }}>
+                style={styles.dobButton}>
                 <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '600',
-                    fontFamily: 'Roboto',
-                    color: colors.primary
-                  }}>
+                  style={styles.dobText}>
                   {userDOB ? '' : 'Enter '}Your DOB {userDOB}
                 </Text>
               </TouchableOpacity>
@@ -219,13 +180,7 @@ export default function RegistrationScreen({ navigation }) {
               <FormImagePicker filePath={filePath} setFilePath={setFilePath} />
               <RadioButton.Group onValueChange={newValue => setGender(newValue)} value={gender}>
                 <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '400',
-                    fontFamily: 'Roboto',
-                    color: '#000',
-                    marginTop: 12
-                  }}>
+                  style={styles.genderTitle}>
                   Whats your gender
                 </Text>
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: 'space-evenly', marginVertical: 8 }}>
@@ -248,12 +203,7 @@ export default function RegistrationScreen({ navigation }) {
                 onPress={handleSubmit}
                 style={{ backgroundColor: colors.secondary, justifyContent: 'center', alignItems: "center", borderRadius: 10, padding: 8 }} >
                 <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '400',
-                    fontFamily: 'Roboto',
-                    color: colors.white
-                  }}>
+                  style={styles.buttonTitle}>
                   Submit
                   {loading && <ActivityIndicator />}
                 </Text>
@@ -277,6 +227,43 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginVertical: 4, borderRadius: 8, overflow: 'hidden',
     marginTop: 12
+  },
+  dobButton: {
+    backgroundColor: colors.secondary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 8,
+    borderRadius: 8,
+    marginTop: 8
+  },
+  dobText: {
+    fontSize: 20,
+    fontWeight: '600',
+    fontFamily: 'Roboto',
+    color: colors.primary
+  },
+  genderTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000',
+    marginTop: 12
+  },
+  registrationTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000'
+  },
+  buttonTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: colors.white
+  },
+  contaier: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    padding: 12,
   }
-  ,
 })

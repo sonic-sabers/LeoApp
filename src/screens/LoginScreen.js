@@ -1,65 +1,8 @@
-// import { StyleSheet, Text, View } from 'react-native'
-// import React from 'react'
-// import colors from '../constants/colors'
-// import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-// import Homescreen from './Homescreen';
-// import RegistrationScreen from './RegistrationScreen';
-
-
-// const Tab = createMaterialTopTabNavigator();
-// export default function LoginScreen() {
-//   return (
-//     <View style={{ flex: 1, backgroundColor: colors.primary }}>
-
-//       <Tab.Navigator
-//         initialRouteName="Feed"
-//         screenOptions={{
-//           tabBarActiveTintColor: '#e91e63',
-//           tabBarLabelStyle: { fontSize: 12 },
-//           tabBarStyle: { backgroundColor: 'powderblue' },
-//         }}
-//       >
-//         <Tab.Screen
-//           name="Feed"
-//           component={Homescreen}
-//           options={{ tabBarLabel: 'Home' }}
-//         />
-//         <Tab.Screen
-//           name="Notifications"
-//           component={RegistrationScreen}
-//           options={{ tabBarLabel: 'Updates' }}
-//         />
-
-//       </Tab.Navigator>
-//       <Text
-//         style={{
-//           fontSize: 20,
-//           fontWeight: '400',
-//           fontFamily: 'Roboto',
-//           color: '#000'
-//         }}>
-//         Login here
-//       </Text>
-//       <Text>LoginScreen</Text>
-//     </View>
-//   )
-// }
-
-// const styles = StyleSheet.create({})
 import * as React from 'react';
-import { Alert, Button, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Alert, Button, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import colors from '../constants/colors';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Octicons from 'react-native-vector-icons/Octicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import * as localStorage from '../services/localStorage';
 
@@ -95,14 +38,9 @@ const Loginform = ({ emailid, password, isAdmin }) => {
   }
 
   return (<>
-    <View style={{ flex: 1, justifyContent: 'center', }}>
+    <View style={{ flex: 1, justifyContent: 'center', paddingTop: 40 }}>
       <Text
-        style={{
-          fontSize: 20,
-          fontWeight: '400',
-          fontFamily: 'Roboto',
-          color: '#000'
-        }}>
+        style={styles.inputTitle}>
         Enter Email
       </Text>
       <TextInput
@@ -111,14 +49,9 @@ const Loginform = ({ emailid, password, isAdmin }) => {
         placeholder='Email'
         placeholderTextColor={colors.lightblack}
         onChangeText={text => setEmail(text)}
-        style={{ marginVertical: 12, borderWidth: 1, borderRadius: 4, paddingLeft: 8, alignItems: "center", borderColor: colors.white4 }} />
+        style={styles.inputContainer} />
       <Text
-        style={{
-          fontSize: 20,
-          fontWeight: '400',
-          fontFamily: 'Roboto',
-          color: '#000'
-        }}>
+        style={styles.inputTitle}>
         Enter Password
       </Text>
       <TextInput
@@ -128,7 +61,7 @@ const Loginform = ({ emailid, password, isAdmin }) => {
         secureTextEntry={isSecurePassword}
         placeholderTextColor={colors.lightblack}
         onChangeText={text => setPassword(text)}
-        style={{ marginVertical: 12, borderWidth: 1, borderRadius: 4, paddingLeft: 8, alignItems: "center", borderColor: colors.white4 }} />
+        style={styles.inputContainer} />
       <Feather
         style={{ alignSelf: 'flex-end' }}
         name={!isSecurePassword ? 'eye-off' : 'eye'} size={20} color='#000' onPress={() => setisSecurePassword(!isSecurePassword)} />
@@ -137,20 +70,14 @@ const Loginform = ({ emailid, password, isAdmin }) => {
         style={{ marginBottom: 8 }}
       >
         <Text
-          style={{
-            fontSize: 14,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: colors.secondary,
-            alignSelf: "flex-end"
-          }}>
+          style={styles.registeredText}>
           Not registered Yet?,Register Now!!
         </Text>
       </TouchableOpacity>
       <Button title='Login Now'
         onPress={handleLogin}
       />
-    </View>
+    </View >
   </>)
 }
 
@@ -162,15 +89,11 @@ function AdminLogin({ navigation }) {
     }}>
       <Loginform emailid='admin@leocoders.com' password='leocodersA' isAdmin />
       <Text
-        style={{
-          fontSize: 14,
-          fontWeight: '400',
-          fontFamily: 'Roboto',
-          color: '#000'
-        }}>
-        email:admin@leocoders.com, pwd: leocodersA
+        style={styles.validLogin}>
+
+        email: admin@leocoders.com , pwd: leocodersA
       </Text>
-    </ScrollView>
+    </ScrollView >
   );
 }
 
@@ -182,12 +105,7 @@ function UserLogin() {
     }}>
       <Loginform emailid='user@leocoders.com' password='leocodersU' isAdmin={false} />
       <Text
-        style={{
-          fontSize: 12,
-          fontWeight: '400',
-          fontFamily: 'Roboto',
-          color: '#000'
-        }}>
+        style={styles.validLogin}>
         email:user@leocoders.com , pwd: leocodersU
       </Text>
     </ScrollView>
@@ -229,3 +147,26 @@ export default function App() {
     <MyTabs />
   );
 }
+
+const styles = StyleSheet.create({
+  inputContainer: { marginVertical: 12, borderWidth: 1, borderRadius: 4, paddingLeft: 8, alignItems: "center", borderColor: colors.white4 },
+  registeredText: {
+    fontSize: 14,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: colors.secondary,
+    alignSelf: "flex-end"
+  },
+  validLogin: {
+    fontSize: 12,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000'
+  },
+  inputTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000'
+  },
+});

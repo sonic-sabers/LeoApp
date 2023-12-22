@@ -1,4 +1,4 @@
-import { ActivityIndicator, Button, FlatList, Image, Modal, Pressable, ScrollView, StyleSheet, Switch, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from 'react-native'
+import { Button, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import AdminView from '../components/AdminView';
@@ -9,20 +9,6 @@ import LocationView from '../components/LocationView';
 export default function Homescreen({ navigation, route }) {
   const { isAdmin } = route?.params
   const [hasAdminRights, sethasAdminRights] = useState(isAdmin || false)
-
-  const checkIsAdmin = async () => {
-    let userData = await localStorage.get('userData');
-    userData = JSON.parse(userData);
-    sethasAdminRights(userData?.isAdmin)
-  }
-  useEffect(() => {
-    let componentUnmounted = false;
-    checkIsAdmin();
-    return () => {
-      componentUnmounted = true;
-    };
-  }, []);
-
   const [FetchingData, setFetchingData] = React.useState({});
 
   const handlelogout = async () => {
@@ -33,13 +19,12 @@ export default function Homescreen({ navigation, route }) {
   useEffect(() => {
     let componentUnmounted = false;
     const restoringSession = async () => {
-      console.log('response', 1)
-
       let userData = await localStorage.get('userData');
-
       if (userData) {
         userData = JSON.parse(userData);
         setFetchingData(userData)
+        sethasAdminRights(userData?.isAdmin)
+
       } else {
         navigation.replace('LoginScreen')
       }
@@ -54,75 +39,35 @@ export default function Homescreen({ navigation, route }) {
     return (
       <View style={{ padding: 12 }}>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           username:  {FetchingData?.username}
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           About:  {FetchingData?.About}
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           email:  {FetchingData?.email}
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           filePath:
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           Gender:  {FetchingData?.gender}
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           habits: {FetchingData?.habits}
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           number: {FetchingData?.number}
         </Text>
         <Text
-          style={{
-            fontSize: 20,
-            fontWeight: '400',
-            fontFamily: 'Roboto',
-            color: '#000'
-          }}>
+          style={styles.detailsTitle}>
           userDOB: {FetchingData?.userDOB}
         </Text>
       </View>
@@ -149,3 +94,13 @@ export default function Homescreen({ navigation, route }) {
     </ScrollView>
   )
 }
+
+
+const styles = StyleSheet.create({
+  detailsTitle: {
+    fontSize: 20,
+    fontWeight: '400',
+    fontFamily: 'Roboto',
+    color: '#000'
+  }
+});
