@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function CreateTodo() {
+export default function Homescreen() {
   return (
     <View>
-      <Text>CreateTodo</Text>
+      <Text>Homescreen</Text>
     </View>
   )
 }
